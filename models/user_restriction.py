@@ -21,7 +21,7 @@ class MrpProduction(models.Model):
 
 # Empleados
 class HrEmployee(models.Model):
-    _inherit = 'hr.employee'
+    _inherit = 'hr.employee.public'
 
     def search(self, args, **kwargs):
         if self.env.user.has_group('exe_restriction_user.group_no_permission'):
@@ -59,4 +59,16 @@ class IrModuleModule(models.Model):
             and not self.env.is_superuser                          # procesos del sistema
         ):
             raise AccessError("No tenés permiso para ver Aplicaciones.")
+        return super().search(args, **kwargs)
+    
+
+#en sale.order solo puede ver sus presupuestos y pedidos
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    def search(self, args, **kwargs):
+        if self.env.user.has_group('exe_restriction_user.group_no_permission'):
+            # Mostrar solo los presupuestos creados por el usuario actual
+            domain = [('create_uid', '=', self.env.uid)]
+            args = domain + args
         return super().search(args, **kwargs)
