@@ -19,9 +19,9 @@ class MrpProduction(models.Model):
             raise AccessError("No tenés permiso para ver Fabricación.")
         return super().search(args, **kwargs)
 
-# Empleados
+# Empleadosgt
 class HrEmployee(models.Model):
-    _inherit = 'hr.employee.public'
+    _inherit = 'hr.employee'
 
     def search(self, args, **kwargs):
         if self.env.user.has_group('exe_restriction_user.group_no_permission'):
@@ -33,8 +33,9 @@ class Website(models.Model):
     _inherit = 'website'
 
     def search(self, args, **kwargs):
-        if self.env.user.has_group('exe_restriction_user.group_no_permission') and not self.env.context.get('website_id'):
-            raise AccessError("No tenés permiso para ver el Sitio Web.")
+        if self.env.user.has_group('exe_restriction_user.group_no_permission'):
+            # Mostrar solo el sitio web principal (o ninguno si querés ocultar todo)
+            args = [('id', '=', -1)] + args  # dominio siempre falso
         return super().search(args, **kwargs)
 
 # Tableros (comentado por ser modelo abstracto, solo usar si sabés que no rompe vistas)

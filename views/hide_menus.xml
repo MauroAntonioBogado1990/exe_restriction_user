@@ -2,9 +2,9 @@
    <odoo>
   <data noupdate="1">
     <!-- Ocultar menú de tableros para el grupo sin permisos -->
-    <record id="board.menu_board_root" model="ir.ui.menu">
+    <!-- <record id="board.menu_board_root" model="ir.ui.menu">
       <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
-    </record>
+    </record> -->
 
 
       </data>
