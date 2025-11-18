@@ -38,13 +38,14 @@ class Website(models.Model):
         return super().search(args, **kwargs)
 
 # Tableros (comentado por ser modelo abstracto, solo usar si sabés que no rompe vistas)
-# class Board(models.AbstractModel):
-#     _inherit = 'board.board'
-#
-#     def search(self, args, **kwargs):
-#         if self.env.user.has_group('exe_restriction_user.group_no_permission'):
-#             raise AccessError("No tenés permiso para ver Tableros.")
-#         return super().search(args, **kwargs)
+# Tableros
+class Board(models.AbstractModel):
+    _inherit = 'board.board'
+
+    def search(self, args, **kwargs):
+        if self.env.user.has_group('exe_restriction_user.group_no_permission'):
+            raise AccessError("No tenés permiso para ver Tableros.")
+        return super().search(args, **kwargs)
 
 # Aplicaciones (Apps)
 class IrModuleModule(models.Model):
