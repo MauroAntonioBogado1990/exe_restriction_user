@@ -1,0 +1,21 @@
+<odoo>
+  <data>
+    <!-- Ocultar menú de Inventario para el grupo "Usuarios sin permiso" -->
+    <menuitem id="stock.menu_stock_root" groups="base.group_user,stock.group_stock_user"/>
+
+    <!-- Ocultar menú de Tableros -->
+    <menuitem id="board.menu_board_root" groups="base.group_user"/>
+
+    <!-- Ocultar menú de Empleados -->
+    <menuitem id="hr.menu_hr_root" groups="base.group_user"/>
+
+    <!-- Ocultar menú de Aplicaciones -->
+    <menuitem id="base.menu_custom" groups="base.group_user"/>
+
+    <!-- Ocultar menú de Fabricación -->
+    <menuitem id="mrp.menu_mrp_root" groups="base.group_user"/>
+
+    <!-- Ocultar menú de Sitio Web -->
+    <menuitem id="website.menu_website_configuration" groups="base.group_user"/>
+  </data>
+</odoo>
