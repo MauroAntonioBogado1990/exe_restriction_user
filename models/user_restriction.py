@@ -52,15 +52,27 @@ class IrModuleModule(models.Model):
     _inherit = 'ir.module.module'
 
     def search(self, args, **kwargs):
-        # Evitar bloquear procesos internos o públicos
-        if (
-            self.env.user.has_group('exe_restriction_user.group_no_permission')
-            and not self.env.context.get('frontend_asset_loading')  # contexto interno
-            and not self.env.context.get('website_id')              # vistas públicas
-            and not self.env.is_superuser                          # procesos del sistema
-        ):
+        if self._is_restricted():
             raise AccessError("No tenés permiso para ver Aplicaciones.")
         return super().search(args, **kwargs)
+
+    def read(self, fields=None, load='_classic_read'):
+        if self._is_restricted():
+            raise AccessError("No tenés permiso para ver Aplicaciones.")
+        return super().read(fields, load)
+
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        if self._is_restricted():
+            raise AccessError("No tenés permiso para ver Aplicaciones.")
+        return super().read_group(domain, fields, groupby, offset, limit, orderby, lazy)
+
+    def _is_restricted(self):
+        return (
+            self.env.user.has_group('exe_restriction_user.group_no_permission')
+            and not self.env.context.get('frontend_asset_loading')
+            and not self.env.context.get('website_id')
+            and not self.env.is_superuser
+        )
     
 
 #en sale.order solo puede ver sus presupuestos y pedidos
